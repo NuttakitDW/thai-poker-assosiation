@@ -11,6 +11,10 @@ backend/node_modules/
 frontend/.env.local
 backend/.env
 
+# But keep example files
+!.env.example
+!**/.env.example
+
 # Next.js
 frontend/.next/
 frontend/out/
