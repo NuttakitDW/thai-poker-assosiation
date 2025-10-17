@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS users (
 DO $$
 BEGIN
   ALTER TABLE users ALTER COLUMN id SET DEFAULT uuid_generate_v4();
+  ALTER TABLE users ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
 EXCEPTION
   WHEN OTHERS THEN
     NULL; -- Ignore errors if column doesn't exist yet
