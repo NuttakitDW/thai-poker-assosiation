@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { translations, Language } from '../translations';
 import { API_URL } from '../config';
 import { RegistrationFormData } from '../types';
@@ -21,11 +21,11 @@ export default function EmailVerificationStep({
   language
 }: EmailVerificationStepProps) {
   const t = translations[language];
-  const [otp, setOtp] = useState('');
+  const [otpDigits, setOtpDigits] = useState(['', '', '', '', '', '']);
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [sentOtp, setSentOtp] = useState('');
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const sendOTP = async () => {
     setLoading(true);
@@ -59,6 +59,7 @@ export default function EmailVerificationStep({
     setError('');
 
     try {
+      const otp = otpDigits.join('');
       const response = await fetch(`${API_URL}/api/verify-otp`, {
         method: 'POST',
         headers: {
@@ -81,6 +82,35 @@ export default function EmailVerificationStep({
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleOtpChange = (index: number, value: string) => {
+    if (!/^\d*$/.test(value)) return; // Only allow digits
+
+    const newOtpDigits = [...otpDigits];
+    newOtpDigits[index] = value.slice(-1); // Take last character only
+    setOtpDigits(newOtpDigits);
+
+    // Auto-advance to next input
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' && !otpDigits[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').slice(0, 6);
+    if (!/^\d+$/.test(pastedData)) return;
+
+    const newOtpDigits = pastedData.split('').concat(Array(6).fill('')).slice(0, 6);
+    setOtpDigits(newOtpDigits);
+    inputRefs.current[Math.min(pastedData.length, 5)]?.focus();
   };
 
   return (
@@ -110,14 +140,22 @@ export default function EmailVerificationStep({
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {t.otpCode} <span className="text-red-500">*</span>
             </label>
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              maxLength={6}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-2xl tracking-widest text-gray-900"
-              placeholder="000000"
-            />
+            <div className="flex gap-2 justify-center">
+              {[0, 1, 2, 3, 4, 5].map((index) => (
+                <input
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={otpDigits[index]}
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  onPaste={handlePaste}
+                  className="w-12 h-12 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                />
+              ))}
+            </div>
           </div>
 
           {error && (
@@ -136,7 +174,7 @@ export default function EmailVerificationStep({
             </button>
             <button
               onClick={verifyOTP}
-              disabled={loading || otp.length !== 6}
+              disabled={loading || otpDigits.some(digit => !digit)}
               className="flex-1 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400"
             >
               {loading ? 'Verifying...' : t.otpVerify}
