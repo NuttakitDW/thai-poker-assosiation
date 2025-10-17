@@ -45,6 +45,9 @@ async function runMigration() {
 const db = require('./db/connection');
 
 // Middleware
+// Trust proxy - required for Railway and other reverse proxies
+app.set('trust proxy', 1);
+
 // Configure CORS to allow frontend access
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'

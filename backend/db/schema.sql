@@ -1,5 +1,8 @@
 -- Thai Poker Association Database Schema
 
+-- Enable UUID extension (for older PostgreSQL versions)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
