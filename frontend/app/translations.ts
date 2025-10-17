@@ -10,7 +10,7 @@ export const translations = {
     // Steps
     step1: 'ข้อมูลส่วนตัว',
     step2: 'ยืนยันอีเมล',
-    step3: 'เอกสารยืนยันตัวตน',
+    step3: 'ตรวจสอบและส่งข้อมูล',
     step4: 'เสร็จสิ้น',
 
     // Form labels - Personal Info
@@ -76,7 +76,7 @@ export const translations = {
     // Steps
     step1: 'Personal Information',
     step2: 'Email Verification',
-    step3: 'Identity Documents',
+    step3: 'Review & Submit',
     step4: 'Complete',
 
     // Form labels - Personal Info
