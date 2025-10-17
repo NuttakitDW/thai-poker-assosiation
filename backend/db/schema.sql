@@ -39,6 +39,15 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Fix existing users table if it has wrong default
+DO $$
+BEGIN
+  ALTER TABLE users ALTER COLUMN id SET DEFAULT uuid_generate_v4();
+EXCEPTION
+  WHEN OTHERS THEN
+    NULL; -- Ignore errors if column doesn't exist yet
+END $$;
+
 -- OTP Codes table
 CREATE TABLE IF NOT EXISTS otp_codes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -59,6 +68,15 @@ CREATE TABLE IF NOT EXISTS otp_codes (
   -- Timestamps
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Fix existing otp_codes table if it has wrong default
+DO $$
+BEGIN
+  ALTER TABLE otp_codes ALTER COLUMN id SET DEFAULT uuid_generate_v4();
+EXCEPTION
+  WHEN OTHERS THEN
+    NULL; -- Ignore errors if column doesn't exist yet
+END $$;
 
 -- Indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
