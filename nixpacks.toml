@@ -5,4 +5,4 @@ nixPkgs = ["nodejs"]
 cmds = ["cd backend && npm install"]
 
 [start]
-cmd = "cd backend && npx prisma generate && npx prisma migrate deploy && node server.js"
+cmd = "cd backend && node db/migrate.js && node server.js"
