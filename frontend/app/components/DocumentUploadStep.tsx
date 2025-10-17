@@ -66,9 +66,12 @@ export default function DocumentUploadStep({
       const formDataToSend = new FormData();
 
       // Append all form data
-      Object.keys(formData).forEach((key) => {
-        if (key !== 'idCardFile' && key !== 'registrationId' && formData[key]) {
-          formDataToSend.append(key, formData[key].toString());
+      (Object.keys(formData) as Array<keyof RegistrationFormData>).forEach((key) => {
+        if (key !== 'idCardFile' && key !== 'registrationId' && key !== 'emailVerified') {
+          const value = formData[key];
+          if (value) {
+            formDataToSend.append(key, value.toString());
+          }
         }
       });
 
