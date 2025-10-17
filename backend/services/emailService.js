@@ -238,8 +238,8 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     : 'https://thai-poker-assosiation-production.up.railway.app/public/logo.png';
 
   const text = language === 'th'
-    ? `สวัสดีคุณ ${firstName},\n\nการลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว\n\nหมายเลขการลงทะเบียน: ${registrationId}\nสถานะ: รอการอนุมัติ\n\nเราจะตรวจสอบข้อมูลของคุณและแจ้งผลการอนุมัติภายใน 3-5 วันทำการ`
-    : `Hello ${firstName},\n\nYour registration has been completed successfully.\n\nRegistration ID: ${registrationId}\nStatus: Pending Approval\n\nWe will review your information and notify you of the approval within 3-5 business days.`;
+    ? `สวัสดีคุณ ${firstName},\n\nการลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว\n\nหมายเลขการลงทะเบียน: ${registrationId}\n\nขอบคุณที่ลงทะเบียนกับ Thai Poker Sports Association`
+    : `Hello ${firstName},\n\nYour registration has been completed successfully.\n\nRegistration ID: ${registrationId}\n\nThank you for registering with Thai Poker Sports Association.`;
 
   const html = `
     <!DOCTYPE html>
@@ -299,17 +299,15 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
             <p>การลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว</p>
             <div class="info-box">
               <p><strong>หมายเลขการลงทะเบียน:</strong> ${registrationId}</p>
-              <p><strong>สถานะ:</strong> รอการอนุมัติ</p>
             </div>
-            <p>เราจะตรวจสอบข้อมูลของคุณและแจ้งผลการอนุมัติภายใน 3-5 วันทำการ</p>
+            <p>ขอบคุณที่ลงทะเบียนกับ Thai Poker Sports Association</p>
           ` : `
             <h2>Welcome ${firstName}!</h2>
             <p>Your registration has been completed successfully.</p>
             <div class="info-box">
               <p><strong>Registration ID:</strong> ${registrationId}</p>
-              <p><strong>Status:</strong> Pending Approval</p>
             </div>
-            <p>We will review your information and notify you of the approval within 3-5 business days.</p>
+            <p>Thank you for registering with Thai Poker Sports Association.</p>
           `}
         </div>
 

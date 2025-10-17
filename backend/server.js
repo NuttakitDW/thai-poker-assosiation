@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const rateLimit = require('express-rate-limit');
 const emailService = require('./services/emailService');
+const { uploadToS3 } = require('./services/s3Service');
 require('dotenv').config();
 
 const app = express();
@@ -59,17 +60,22 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 app.use('/public', express.static('public'));
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+// Configure multer for file uploads (use memory storage for S3)
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
+  fileFilter: (req, file, cb) => {
+    // Accept only images
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  },
 });
-
-const upload = multer({ storage: storage });
 
 // Generate random OTP
 function generateOTP() {
@@ -219,6 +225,23 @@ app.post('/api/register', upload.single('idCard'), async (req, res) => {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
+    // Upload ID card to S3 if provided
+    let idCardUrl = null;
+    if (req.file) {
+      try {
+        idCardUrl = await uploadToS3(
+          req.file.buffer,
+          req.file.originalname,
+          req.file.mimetype,
+          'id-cards'
+        );
+        console.log(`✓ ID card uploaded to S3: ${idCardUrl}`);
+      } catch (uploadError) {
+        console.error('S3 upload error:', uploadError);
+        return res.status(500).json({ error: 'Failed to upload ID card' });
+      }
+    }
+
     // Create user in database
     const userResult = await db.query(
       `INSERT INTO users (
@@ -232,7 +255,7 @@ app.post('/api/register', upload.single('idCard'), async (req, res) => {
         email, phone || null, birthDate ? new Date(birthDate) : null,
         nationality || null, idNumber || null, address || null,
         lineId || null, telegram || null, facebook || null,
-        req.file ? `/uploads/${req.file.filename}` : null,
+        idCardUrl,
         true, 'pending'
       ]
     );
