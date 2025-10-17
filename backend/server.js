@@ -2,13 +2,46 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const rateLimit = require('express-rate-limit');
-const db = require('./db/connection');
 const emailService = require('./services/emailService');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Run database migration on startup
+async function runMigration() {
+  const { Pool } = require('pg');
+
+  if (!process.env.DATABASE_URL) {
+    console.error('⚠️  DATABASE_URL not set, skipping migration');
+    return;
+  }
+
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  });
+
+  try {
+    console.log('🔄 Running database migrations...');
+    const schemaSQL = fs.readFileSync(
+      path.join(__dirname, 'db', 'schema.sql'),
+      'utf8'
+    );
+    await pool.query(schemaSQL);
+    console.log('✅ Database migrations completed');
+    await pool.end();
+  } catch (error) {
+    console.error('❌ Migration failed:', error.message);
+    await pool.end();
+    throw error;
+  }
+}
+
+// Import db connection after migration setup
+const db = require('./db/connection');
 
 // Middleware
 // Configure CORS to allow frontend access
@@ -249,16 +282,29 @@ app.get('/api/registrations', async (req, res) => {
 });
 
 // Create uploads directory if it doesn't exist
-const fs = require('fs');
 if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
 }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`API available at http://localhost:${PORT}/api`);
-  console.log('Database connected via PostgreSQL');
-});
+// Start server with migration
+async function startServer() {
+  try {
+    // Run migrations first
+    await runMigration();
+
+    // Then start the server
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log(`API available at http://localhost:${PORT}/api`);
+      console.log('Database connected via PostgreSQL');
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
