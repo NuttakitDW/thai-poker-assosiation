@@ -190,7 +190,7 @@ app.post('/api/verify-otp', async (req, res) => {
 });
 
 // Submit registration
-app.post('/api/register', upload.single('idCard'), async (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const {
       firstNameTH,
@@ -228,37 +228,19 @@ app.post('/api/register', upload.single('idCard'), async (req, res) => {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    // Upload ID card to S3 if provided
-    let idCardUrl = null;
-    if (req.file) {
-      try {
-        idCardUrl = await uploadToS3(
-          req.file.buffer,
-          req.file.originalname,
-          req.file.mimetype,
-          'id-cards'
-        );
-        console.log(`✓ ID card uploaded to S3: ${idCardUrl}`);
-      } catch (uploadError) {
-        console.error('S3 upload error:', uploadError);
-        return res.status(500).json({ error: 'Failed to upload ID card' });
-      }
-    }
-
     // Create user in database
     const userResult = await db.query(
       `INSERT INTO users (
         first_name_th, last_name_th, first_name_en, last_name_en,
         email, phone, birth_date, nationality, id_number, address,
-        line_id, telegram, facebook, id_card_url, email_verified, status
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+        line_id, telegram, facebook, email_verified, status
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING *`,
       [
         firstNameTH, lastNameTH, firstNameEN, lastNameEN,
         email, phone || null, birthDate ? new Date(birthDate) : null,
         nationality || null, idNumber || null, address || null,
         lineId || null, telegram || null, facebook || null,
-        idCardUrl,
         true, 'pending'
       ]
     );

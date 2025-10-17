@@ -30,9 +30,6 @@ CREATE TABLE IF NOT EXISTS users (
   telegram VARCHAR(100),
   facebook VARCHAR(255),
 
-  -- Document
-  id_card_url TEXT,
-
   -- Status
   email_verified BOOLEAN DEFAULT false,
   status VARCHAR(50) DEFAULT 'pending',
