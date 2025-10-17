@@ -1,9 +1,10 @@
 'use client';
 
 import { translations, Language } from '../translations';
+import { FormData } from '../types';
 
 interface SuccessStepProps {
-  formData: any;
+  formData: FormData;
   language: Language;
 }
 

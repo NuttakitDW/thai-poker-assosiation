@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { translations, Language } from '../translations';
 import { API_URL } from '../config';
+import { FormData } from '../types';
 
 interface DocumentUploadStepProps {
-  formData: any;
-  updateFormData: (data: any) => void;
+  formData: FormData;
+  updateFormData: (data: Partial<FormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   language: Language;
@@ -88,7 +89,7 @@ export default function DocumentUploadStep({
       } else {
         setError(data.error || 'Registration failed');
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to connect to server');
     } finally {
       setLoading(false);
