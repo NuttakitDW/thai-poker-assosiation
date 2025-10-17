@@ -20,8 +20,8 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
   }
 
   const subject = language === 'th'
-    ? 'รหัส OTP สำหรับการลงทะเบียน - Thai Poker Association'
-    : 'Your OTP Code - Thai Poker Association';
+    ? 'รหัส OTP สำหรับการลงทะเบียน - Thai Poker Sports Association'
+    : 'Your OTP Code - Thai Poker Sports Association';
 
   // Logo URL - use environment variable or fallback
   const logoUrl = process.env.API_URL
@@ -29,8 +29,8 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     : 'https://thai-poker-assosiation-production.up.railway.app/public/logo.png';
 
   const text = language === 'th'
-    ? `สวัสดีคุณ ${firstName},\n\nรหัส OTP ของคุณคือ: ${otpCode}\n\nรหัสนี้จะหมดอายุใน 5 นาที\n\nกรุณาอย่าแชร์รหัสนี้กับผู้อื่น\n\nขอบคุณที่ลงทะเบียนกับ Thai Poker Association`
-    : `Hello ${firstName},\n\nYour OTP code is: ${otpCode}\n\nThis code will expire in 5 minutes.\n\nDo not share this code with anyone.\n\nThank you for registering with Thai Poker Association`;
+    ? `สวัสดีคุณ ${firstName},\n\nรหัส OTP ของคุณคือ: ${otpCode}\n\nรหัสนี้จะหมดอายุใน 5 นาที\n\nกรุณาอย่าแชร์รหัสนี้กับผู้อื่น\n\nขอบคุณที่ลงทะเบียนกับ Thai Poker Sports Association`
+    : `Hello ${firstName},\n\nYour OTP code is: ${otpCode}\n\nThis code will expire in 5 minutes.\n\nDo not share this code with anyone.\n\nThank you for registering with Thai Poker Sports Association`;
 
   const html = `
     <!DOCTYPE html>
@@ -95,19 +95,19 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     <body>
       <div class="container">
         <div class="header">
-          <img src="${logoUrl}" alt="Thai Poker Association" style="height: 80px; margin: 0 auto 15px auto; display: block;" />
-          <h1>Thai Poker Association</h1>
+          <img src="${logoUrl}" alt="Thai Poker Sports Association" style="height: 80px; margin: 0 auto 15px auto; display: block;" />
+          <h1>Thai Poker Sports Association</h1>
         </div>
 
         <div class="content">
           ${language === 'th' ? `
             <h2>ยืนยันอีเมลของคุณ</h2>
             <p>สวัสดีคุณ <strong>${firstName}</strong>,</p>
-            <p>ขอบคุณที่ลงทะเบียนกับ Thai Poker Association กรุณาใช้รหัส OTP ด้านล่างเพื่อยืนยันอีเมลของคุณ:</p>
+            <p>ขอบคุณที่ลงทะเบียนกับ Thai Poker Sports Association กรุณาใช้รหัส OTP ด้านล่างเพื่อยืนยันอีเมลของคุณ:</p>
           ` : `
             <h2>Verify Your Email</h2>
             <p>Hello <strong>${firstName}</strong>,</p>
-            <p>Thank you for registering with Thai Poker Association. Please use the OTP code below to verify your email:</p>
+            <p>Thank you for registering with Thai Poker Sports Association. Please use the OTP code below to verify your email:</p>
           `}
 
           <div class="otp-box">
@@ -136,11 +136,11 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
 
         <div class="footer">
           ${language === 'th' ? `
-            <p>© 2024 Thai Poker Association. สงวนลิขสิทธิ์.</p>
-            <p>หากคุณมีคำถาม กรุณาติดต่อ support@thaipokerassociation.com</p>
+            <p>© 2024 Thai Poker Sports Association. สงวนลิขสิทธิ์.</p>
+            <p>หากคุณมีคำถาม กรุณาติดต่อ support@thaipokersportsassociation.com</p>
           ` : `
-            <p>© 2024 Thai Poker Association. All rights reserved.</p>
-            <p>If you have questions, please contact support@thaipokerassociation.com</p>
+            <p>© 2024 Thai Poker Sports Association. All rights reserved.</p>
+            <p>If you have questions, please contact support@thaipokersportsassociation.com</p>
           `}
         </div>
       </div>
@@ -152,7 +152,7 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     to: email,
     from: {
       email: process.env.SENDGRID_FROM_EMAIL,
-      name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Association',
+      name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Sports Association',
     },
     subject,
     text,
@@ -184,8 +184,8 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
   }
 
   const subject = language === 'th'
-    ? 'การลงทะเบียนสำเร็จ - Thai Poker Association'
-    : 'Registration Successful - Thai Poker Association';
+    ? 'การลงทะเบียนสำเร็จ - Thai Poker Sports Association'
+    : 'Registration Successful - Thai Poker Sports Association';
 
   // Logo URL - use environment variable or fallback
   const logoUrl = process.env.API_URL
@@ -244,7 +244,7 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     <body>
       <div class="container">
         <div class="header">
-          <img src="${logoUrl}" alt="Thai Poker Association" style="height: 80px; margin: 0 auto 15px auto; display: block;" />
+          <img src="${logoUrl}" alt="Thai Poker Sports Association" style="height: 80px; margin: 0 auto 15px auto; display: block;" />
           <h1>✓ Registration Successful</h1>
         </div>
 
@@ -269,7 +269,7 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
         </div>
 
         <div class="footer">
-          <p>© 2024 Thai Poker Association</p>
+          <p>© 2024 Thai Poker Sports Association</p>
         </div>
       </div>
     </body>
@@ -280,7 +280,7 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     to: email,
     from: {
       email: process.env.SENDGRID_FROM_EMAIL,
-      name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Association',
+      name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Sports Association',
     },
     subject,
     text,
