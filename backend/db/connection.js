@@ -1,14 +1,9 @@
 const { Pool } = require('pg');
 
-// Check if DATABASE_URL is available
-if (!process.env.DATABASE_URL) {
-  console.error('❌ DATABASE_URL environment variable is not set!');
-  console.error('Available env vars:', Object.keys(process.env).filter(k => k.includes('DATABASE')));
-  process.exit(1);
-}
-
-console.log('🔗 Connecting to database...');
-console.log('   Host:', process.env.DATABASE_URL.split('@')[1]?.split('/')[0] || 'unknown');
+// Log environment info for debugging
+console.log('🔗 Initializing database connection...');
+console.log('   DATABASE_URL:', process.env.DATABASE_URL ? 'Set ✓' : 'Not set ✗');
+console.log('   NODE_ENV:', process.env.NODE_ENV || 'development');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
