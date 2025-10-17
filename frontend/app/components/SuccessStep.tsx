@@ -13,6 +13,16 @@ export default function SuccessStep({ formData, language }: SuccessStepProps) {
 
   return (
     <div className="space-y-6 text-center">
+      {/* Logo */}
+      <div className="flex justify-center mb-4">
+        <img
+          src="/logo.png"
+          alt="Thai Poker Sports Association Logo"
+          className="h-24 w-auto"
+        />
+      </div>
+
+      {/* Success Icon */}
       <div className="flex justify-center">
         <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center">
           <svg

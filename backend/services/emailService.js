@@ -23,6 +23,11 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     ? 'รหัส OTP สำหรับการลงทะเบียน - Thai Poker Association'
     : 'Your OTP Code - Thai Poker Association';
 
+  // Logo URL - use environment variable or fallback
+  const logoUrl = process.env.API_URL
+    ? `${process.env.API_URL}/public/logo.png`
+    : 'https://thai-poker-assosiation-production.up.railway.app/public/logo.png';
+
   const text = language === 'th'
     ? `สวัสดีคุณ ${firstName},\n\nรหัส OTP ของคุณคือ: ${otpCode}\n\nรหัสนี้จะหมดอายุใน 5 นาที\n\nกรุณาอย่าแชร์รหัสนี้กับผู้อื่น\n\nขอบคุณที่ลงทะเบียนกับ Thai Poker Association`
     : `Hello ${firstName},\n\nYour OTP code is: ${otpCode}\n\nThis code will expire in 5 minutes.\n\nDo not share this code with anyone.\n\nThank you for registering with Thai Poker Association`;
@@ -90,6 +95,7 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     <body>
       <div class="container">
         <div class="header">
+          <img src="${logoUrl}" alt="Thai Poker Association" style="height: 80px; margin: 0 auto 15px auto; display: block;" />
           <h1>Thai Poker Association</h1>
         </div>
 
@@ -181,6 +187,11 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     ? 'การลงทะเบียนสำเร็จ - Thai Poker Association'
     : 'Registration Successful - Thai Poker Association';
 
+  // Logo URL - use environment variable or fallback
+  const logoUrl = process.env.API_URL
+    ? `${process.env.API_URL}/public/logo.png`
+    : 'https://thai-poker-assosiation-production.up.railway.app/public/logo.png';
+
   const text = language === 'th'
     ? `สวัสดีคุณ ${firstName},\n\nการลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว\n\nหมายเลขการลงทะเบียน: ${registrationId}\nสถานะ: รอการอนุมัติ\n\nเราจะตรวจสอบข้อมูลของคุณและแจ้งผลการอนุมัติภายใน 3-5 วันทำการ`
     : `Hello ${firstName},\n\nYour registration has been completed successfully.\n\nRegistration ID: ${registrationId}\nStatus: Pending Approval\n\nWe will review your information and notify you of the approval within 3-5 business days.`;
@@ -233,6 +244,7 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     <body>
       <div class="container">
         <div class="header">
+          <img src="${logoUrl}" alt="Thai Poker Association" style="height: 80px; margin: 0 auto 15px auto; display: block;" />
           <h1>✓ Registration Successful</h1>
         </div>
 

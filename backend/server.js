@@ -25,6 +25,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
+app.use('/public', express.static('public'));
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({

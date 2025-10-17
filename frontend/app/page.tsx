@@ -58,17 +58,27 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
       <div className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">{t.title}</h1>
-            <p className="text-sm text-gray-600">{t.subtitle}</p>
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          {/* Logo and Title */}
+          <div className="flex flex-col items-center mb-4">
+            <img
+              src="/logo.png"
+              alt="Thai Poker Sports Association Logo"
+              className="h-32 w-auto mb-4"
+            />
+            <h1 className="text-3xl font-bold text-gray-800 text-center">{t.title}</h1>
+            <p className="text-sm text-gray-600 text-center mt-2">{t.subtitle}</p>
           </div>
-          <button
-            onClick={toggleLanguage}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            {t.languageSwitch}
-          </button>
+
+          {/* Language Toggle */}
+          <div className="flex justify-center">
+            <button
+              onClick={toggleLanguage}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              {t.languageSwitch}
+            </button>
+          </div>
         </div>
       </div>
 
