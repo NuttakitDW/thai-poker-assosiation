@@ -1,15 +1,10 @@
 const sgMail = require('@sendgrid/mail');
 const nodemailer = require('nodemailer');
 
-// Initialize SendGrid (only if API key is provided)
-if (process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-}
-
 // Configure email transport based on environment
 function getEmailTransport() {
-  // Use MailHog in development
-  if (process.env.NODE_ENV === 'development' || process.env.USE_MAILHOG === 'true') {
+  // Use MailHog if explicitly enabled
+  if (process.env.USE_MAILHOG === 'true') {
     return nodemailer.createTransport({
       host: 'localhost',
       port: 1025,
@@ -17,7 +12,7 @@ function getEmailTransport() {
     });
   }
 
-  // Use SendGrid in production
+  // Use SendGrid otherwise
   return null; // Will use SendGrid API instead
 }
 
@@ -189,6 +184,9 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     }
   } else {
     // Use SendGrid
+    // Initialize SendGrid API key
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
     const msg = {
       to: email,
       from: {
@@ -343,6 +341,9 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     }
   } else {
     // Use SendGrid
+    // Initialize SendGrid API key
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
     const msg = {
       to: email,
       from: {
