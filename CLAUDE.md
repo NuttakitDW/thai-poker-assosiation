@@ -15,3 +15,5 @@ create regsiter website with next.js for frontend and nodejs for backend using t
  hosting on vercel
 
  with email verification
+
+ remember to use git commit message convention (eg. feat:xxx, chore:xxx etc.)
