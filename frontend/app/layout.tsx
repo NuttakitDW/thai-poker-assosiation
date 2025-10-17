@@ -17,11 +17,6 @@ export const metadata: Metadata = {
   description: "Official member registration for Thai Poker Sports Association. Join our community and register online in just a few minutes.",
   keywords: ["Thai Poker", "Poker Association", "Member Registration", "Thailand Poker", "สมาคมกีฬาโป๊กเกอร์ไทย"],
   authors: [{ name: "Thai Poker Sports Association" }],
-  icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-  },
   openGraph: {
     title: "Thai Poker Sports Association",
     description: "Official member registration for Thai Poker Sports Association",
