@@ -97,28 +97,28 @@ export default function DocumentUploadStep({
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-gray-600">{language === 'th' ? 'ชื่อ (ไทย)' : 'First Name (Thai)'}</p>
-            <p className="font-medium">{formData.firstNameTH}</p>
+            <p className="font-medium text-gray-900">{formData.firstNameTH}</p>
           </div>
           <div>
             <p className="text-gray-600">{language === 'th' ? 'นามสกุล (ไทย)' : 'Last Name (Thai)'}</p>
-            <p className="font-medium">{formData.lastNameTH}</p>
+            <p className="font-medium text-gray-900">{formData.lastNameTH}</p>
           </div>
           <div>
             <p className="text-gray-600">{language === 'th' ? 'ชื่อ (English)' : 'First Name (English)'}</p>
-            <p className="font-medium">{formData.firstNameEN}</p>
+            <p className="font-medium text-gray-900">{formData.firstNameEN}</p>
           </div>
           <div>
             <p className="text-gray-600">{language === 'th' ? 'นามสกุล (English)' : 'Last Name (English)'}</p>
-            <p className="font-medium">{formData.lastNameEN}</p>
+            <p className="font-medium text-gray-900">{formData.lastNameEN}</p>
           </div>
           <div>
             <p className="text-gray-600">{language === 'th' ? 'อีเมล' : 'Email'}</p>
-            <p className="font-medium">{formData.email}</p>
+            <p className="font-medium text-gray-900">{formData.email}</p>
           </div>
           {formData.phone && (
             <div>
               <p className="text-gray-600">{language === 'th' ? 'เบอร์โทร' : 'Phone'}</p>
-              <p className="font-medium">{formData.phone}</p>
+              <p className="font-medium text-gray-900">{formData.phone}</p>
             </div>
           )}
         </div>
