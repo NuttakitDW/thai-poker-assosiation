@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 const { PrismaClient } = require('@prisma/client');
+const emailService = require('./services/emailService');
 require('dotenv').config();
 
 const app = express();
@@ -41,6 +43,15 @@ function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+// Rate limiter for OTP requests - max 3 requests per hour per IP
+const otpLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3, // Max 3 OTP requests per hour
+  message: { error: 'Too many OTP requests. Please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Routes
 
 // Health check
@@ -48,10 +59,10 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-// Send OTP
-app.post('/api/send-otp', async (req, res) => {
+// Send OTP (with rate limiting)
+app.post('/api/send-otp', otpLimiter, async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, language = 'en' } = req.body;
 
     if (!email) {
       return res.status(400).json({ error: 'Email is required' });
@@ -70,16 +81,32 @@ app.post('/api/send-otp', async (req, res) => {
       }
     });
 
-    // Mock email sending - just log it
-    console.log(`[MOCK EMAIL] Sending OTP to ${email}: ${otp}`);
+    // Send OTP via email (SendGrid or mock)
+    try {
+      const result = await emailService.sendOtpEmail(email, 'User', otp, language);
 
-    res.json({
-      success: true,
-      message: 'OTP sent successfully',
-      // For demo purposes, always return the OTP (this is MVP/demo mode)
-      // In production, remove this and integrate real email service
-      otp: otp
-    });
+      // For demo purposes, return OTP only in mock mode or development
+      const response = {
+        success: true,
+        message: 'OTP sent successfully',
+      };
+
+      // In development or mock mode, include OTP in response
+      if (result.mode === 'mock' || process.env.NODE_ENV === 'development') {
+        response.otp = otp;
+      }
+
+      res.json(response);
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError);
+      // Still return success since OTP is saved in database
+      // In production, you might want to handle this differently
+      res.json({
+        success: true,
+        message: 'OTP generated but email delivery may be delayed',
+        otp: process.env.NODE_ENV === 'development' ? otp : undefined
+      });
+    }
   } catch (error) {
     console.error('Send OTP error:', error);
     res.status(500).json({ error: 'Failed to send OTP' });
@@ -191,6 +218,22 @@ app.post('/api/register', upload.single('idCard'), async (req, res) => {
     });
 
     console.log('[REGISTRATION] New registration:', user);
+
+    // Send registration success email
+    const language = req.body.language || 'en';
+    const firstName = language === 'th' ? firstNameTH : firstNameEN;
+
+    try {
+      await emailService.sendRegistrationSuccessEmail(
+        email,
+        firstName,
+        user.id,
+        language
+      );
+    } catch (emailError) {
+      console.error('Failed to send success email:', emailError);
+      // Don't fail registration if email fails
+    }
 
     res.json({
       success: true,

@@ -78,6 +78,7 @@ export default function DocumentUploadStep({
       // Append file
       formDataToSend.append('idCard', file);
       formDataToSend.append('verified', formData.emailVerified.toString());
+      formDataToSend.append('language', language);
 
       const response = await fetch(`${API_URL}/api/register`, {
         method: 'POST',

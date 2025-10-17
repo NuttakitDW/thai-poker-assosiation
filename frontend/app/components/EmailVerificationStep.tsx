@@ -37,7 +37,7 @@ export default function EmailVerificationStep({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: formData.email }),
+        body: JSON.stringify({ email: formData.email, language }),
       });
 
       const data = await response.json();
