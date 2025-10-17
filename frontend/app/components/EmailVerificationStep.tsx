@@ -44,13 +44,11 @@ export default function EmailVerificationStep({
 
       if (response.ok) {
         setOtpSent(true);
-        // For demo - show OTP in console
+        // For demo - show OTP in console only
         if (data.otp) {
           console.log('='.repeat(50));
-          console.log('DEMO OTP CODE:', data.otp);
+          console.log('OTP CODE:', data.otp);
           console.log('='.repeat(50));
-          setSentOtp(data.otp);
-          alert(`Demo OTP sent! Check console or use: ${data.otp}`);
         }
       } else {
         setError(data.error || 'Failed to send OTP');
@@ -127,14 +125,6 @@ export default function EmailVerificationStep({
               placeholder="000000"
             />
           </div>
-
-          {sentOtp && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <p className="text-xs text-yellow-800">
-                Demo Mode - OTP Code: <span className="font-mono font-bold text-lg">{sentOtp}</span>
-              </p>
-            </div>
-          )}
 
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
