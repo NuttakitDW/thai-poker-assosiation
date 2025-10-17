@@ -44,12 +44,6 @@ export default function EmailVerificationStep({
 
       if (response.ok) {
         setOtpSent(true);
-        // For demo - show OTP in console only
-        if (data.otp) {
-          console.log('='.repeat(50));
-          console.log('OTP CODE:', data.otp);
-          console.log('='.repeat(50));
-        }
       } else {
         setError(data.error || 'Failed to send OTP');
       }

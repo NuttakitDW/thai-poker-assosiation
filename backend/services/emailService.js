@@ -1,8 +1,24 @@
 const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 
 // Initialize SendGrid (only if API key is provided)
 if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
+
+// Configure email transport based on environment
+function getEmailTransport() {
+  // Use MailHog in development
+  if (process.env.NODE_ENV === 'development' || process.env.USE_MAILHOG === 'true') {
+    return nodemailer.createTransport({
+      host: 'localhost',
+      port: 1025,
+      ignoreTLS: true,
+    });
+  }
+
+  // Use SendGrid in production
+  return null; // Will use SendGrid API instead
 }
 
 /**
@@ -13,9 +29,14 @@ if (process.env.SENDGRID_API_KEY) {
  * @param {string} language - 'th' or 'en'
  */
 async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
-  // If SendGrid is not configured, use mock mode
-  if (!process.env.SENDGRID_API_KEY || !process.env.SENDGRID_FROM_EMAIL) {
-    console.log(`[MOCK EMAIL] OTP for ${email}: ${otpCode}`);
+  const transport = getEmailTransport();
+
+  // Use MailHog in development
+  if (transport) {
+    console.log(`📧 Sending OTP email via MailHog to ${email}`);
+  } else if (!process.env.SENDGRID_API_KEY || !process.env.SENDGRID_FROM_EMAIL) {
+    // If SendGrid is not configured, use mock mode
+    console.log(`[MOCK EMAIL] OTP email would be sent to ${email}`);
     return { success: true, mode: 'mock' };
   }
 
@@ -122,7 +143,7 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
               <p><strong>หมายเหตุ:</strong></p>
               <ul style="margin: 10px 0; padding-left: 20px;">
                 <li>กรุณาอย่าแชร์รหัสนี้กับผู้อื่น</li>
-                <li>หากคุณไม่ได้ลงทะเบียน กรุณาเพิกเฉยต่อออีเมลนี้</li>
+                <li>หากคุณไม่ได้ลงทะเบียน กรุณาเพิกเฉยต่ออีเมลนี้</li>
               </ul>
             ` : `
               <p><strong>Important:</strong></p>
@@ -148,24 +169,45 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
     </html>
   `;
 
-  const msg = {
-    to: email,
-    from: {
-      email: process.env.SENDGRID_FROM_EMAIL,
-      name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Sports Association',
-    },
-    subject,
-    text,
-    html,
-  };
+  // Send via MailHog (development) or SendGrid (production)
+  if (transport) {
+    // Use Nodemailer with MailHog
+    try {
+      await transport.sendMail({
+        from: '"Thai Poker Sports Association" <noreply@thaipokersportsassociation.com>',
+        to: email,
+        subject,
+        text,
+        html,
+      });
+      console.log(`✓ OTP email sent to ${email} via MailHog`);
+      console.log(`📬 View email at: http://localhost:8025`);
+      return { success: true, mode: 'mailhog' };
+    } catch (error) {
+      console.error('MailHog Error:', error.message);
+      throw new Error('Failed to send OTP email via MailHog');
+    }
+  } else {
+    // Use SendGrid
+    const msg = {
+      to: email,
+      from: {
+        email: process.env.SENDGRID_FROM_EMAIL,
+        name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Sports Association',
+      },
+      subject,
+      text,
+      html,
+    };
 
-  try {
-    await sgMail.send(msg);
-    console.log(`✓ OTP email sent to ${email}`);
-    return { success: true, mode: 'sendgrid' };
-  } catch (error) {
-    console.error('SendGrid Error:', error.response?.body || error.message);
-    throw new Error('Failed to send OTP email');
+    try {
+      await sgMail.send(msg);
+      console.log(`✓ OTP email sent to ${email}`);
+      return { success: true, mode: 'sendgrid' };
+    } catch (error) {
+      console.error('SendGrid Error:', error.response?.body || error.message);
+      throw new Error('Failed to send OTP email');
+    }
   }
 }
 
@@ -177,8 +219,13 @@ async function sendOtpEmail(email, firstName, otpCode, language = 'en') {
  * @param {string} language - 'th' or 'en'
  */
 async function sendRegistrationSuccessEmail(email, firstName, registrationId, language = 'en') {
-  // If SendGrid is not configured, use mock mode
-  if (!process.env.SENDGRID_API_KEY || !process.env.SENDGRID_FROM_EMAIL) {
+  const transport = getEmailTransport();
+
+  // Use MailHog in development
+  if (transport) {
+    console.log(`📧 Sending registration success email via MailHog to ${email}`);
+  } else if (!process.env.SENDGRID_API_KEY || !process.env.SENDGRID_FROM_EMAIL) {
+    // If SendGrid is not configured, use mock mode
     console.log(`[MOCK EMAIL] Registration success for ${email}: ${registrationId}`);
     return { success: true, mode: 'mock' };
   }
@@ -276,24 +323,45 @@ async function sendRegistrationSuccessEmail(email, firstName, registrationId, la
     </html>
   `;
 
-  const msg = {
-    to: email,
-    from: {
-      email: process.env.SENDGRID_FROM_EMAIL,
-      name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Sports Association',
-    },
-    subject,
-    text,
-    html,
-  };
+  // Send via MailHog (development) or SendGrid (production)
+  if (transport) {
+    // Use Nodemailer with MailHog
+    try {
+      await transport.sendMail({
+        from: '"Thai Poker Sports Association" <noreply@thaipokersportsassociation.com>',
+        to: email,
+        subject,
+        text,
+        html,
+      });
+      console.log(`✓ Registration success email sent to ${email} via MailHog`);
+      console.log(`📬 View email at: http://localhost:8025`);
+      return { success: true, mode: 'mailhog' };
+    } catch (error) {
+      console.error('MailHog Error:', error.message);
+      throw new Error('Failed to send success email via MailHog');
+    }
+  } else {
+    // Use SendGrid
+    const msg = {
+      to: email,
+      from: {
+        email: process.env.SENDGRID_FROM_EMAIL,
+        name: process.env.SENDGRID_FROM_NAME || 'Thai Poker Sports Association',
+      },
+      subject,
+      text,
+      html,
+    };
 
-  try {
-    await sgMail.send(msg);
-    console.log(`✓ Success email sent to ${email}`);
-    return { success: true, mode: 'sendgrid' };
-  } catch (error) {
-    console.error('SendGrid Error:', error.response?.body || error.message);
-    throw new Error('Failed to send success email');
+    try {
+      await sgMail.send(msg);
+      console.log(`✓ Success email sent to ${email}`);
+      return { success: true, mode: 'sendgrid' };
+    } catch (error) {
+      console.error('SendGrid Error:', error.response?.body || error.message);
+      throw new Error('Failed to send success email');
+    }
   }
 }
 
