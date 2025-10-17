@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const pool = require('./connection');
@@ -5,6 +6,7 @@ const pool = require('./connection');
 async function migrate() {
   try {
     console.log('🔄 Running database migrations...');
+    console.log('📊 DATABASE_URL:', process.env.DATABASE_URL ? 'Found' : 'NOT FOUND');
 
     const schemaSQL = fs.readFileSync(
       path.join(__dirname, 'schema.sql'),
