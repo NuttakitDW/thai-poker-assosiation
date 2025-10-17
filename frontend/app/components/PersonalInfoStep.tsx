@@ -1,11 +1,11 @@
 'use client';
 
 import { translations, Language } from '../translations';
-import { FormData } from '../types';
+import { RegistrationFormData } from '../types';
 
 interface PersonalInfoStepProps {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
+  formData: RegistrationFormData;
+  updateFormData: (data: Partial<RegistrationFormData>) => void;
   nextStep: () => void;
   language: Language;
 }

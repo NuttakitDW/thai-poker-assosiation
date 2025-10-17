@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { translations, Language } from '../translations';
 import { API_URL } from '../config';
-import { FormData } from '../types';
+import { RegistrationFormData } from '../types';
 
 interface DocumentUploadStepProps {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
+  formData: RegistrationFormData;
+  updateFormData: (data: Partial<RegistrationFormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   language: Language;

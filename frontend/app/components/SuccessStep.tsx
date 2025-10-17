@@ -1,10 +1,10 @@
 'use client';
 
 import { translations, Language } from '../translations';
-import { FormData } from '../types';
+import { RegistrationFormData } from '../types';
 
 interface SuccessStepProps {
-  formData: FormData;
+  formData: RegistrationFormData;
   language: Language;
 }
 

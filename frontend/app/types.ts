@@ -1,5 +1,5 @@
 // Form data types
-export interface FormData {
+export interface RegistrationFormData {
   firstNameTH: string;
   lastNameTH: string;
   firstNameEN: string;
