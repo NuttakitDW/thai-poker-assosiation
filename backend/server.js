@@ -85,10 +85,10 @@ function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// Rate limiter for OTP requests - max 3 requests per hour per IP
+// Rate limiter for OTP requests - configurable via environment variables
 const otpLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3, // Max 3 OTP requests per hour
+  windowMs: parseInt(process.env.OTP_RATE_LIMIT_WINDOW_MINUTES || '60') * 60 * 1000, // Default: 1 hour
+  max: parseInt(process.env.OTP_RATE_LIMIT_MAX_REQUESTS || '3'), // Default: 3 requests
   message: { error: 'Too many OTP requests. Please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
