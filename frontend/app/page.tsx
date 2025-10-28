@@ -1,14 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { Language } from './translations';
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>('th');
 
+  useEffect(() => {
+    // Load language from localStorage on mount
+    const savedLanguage = localStorage.getItem('language') as Language | null;
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
   const toggleLanguage = () => {
-    setLanguage(language === 'th' ? 'en' : 'th');
+    const newLanguage = language === 'th' ? 'en' : 'th';
+    setLanguage(newLanguage);
+    localStorage.setItem('language', newLanguage);
   };
 
   return (

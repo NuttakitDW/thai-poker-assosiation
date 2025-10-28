@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { translations, Language } from '../translations';
 import PersonalInfoStep from '../components/PersonalInfoStep';
@@ -11,6 +11,14 @@ import SuccessStep from '../components/SuccessStep';
 export default function RegisterPage() {
   const [language, setLanguage] = useState<Language>('th');
   const [currentStep, setCurrentStep] = useState(1);
+
+  useEffect(() => {
+    // Load language from localStorage on mount
+    const savedLanguage = localStorage.getItem('language') as Language | null;
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
   const [formData, setFormData] = useState({
     firstNameTH: '',
     lastNameTH: '',
@@ -33,7 +41,9 @@ export default function RegisterPage() {
   const t = translations[language];
 
   const toggleLanguage = () => {
-    setLanguage(language === 'th' ? 'en' : 'th');
+    const newLanguage = language === 'th' ? 'en' : 'th';
+    setLanguage(newLanguage);
+    localStorage.setItem('language', newLanguage);
   };
 
   const updateFormData = (data: Partial<typeof formData>) => {
@@ -74,9 +84,9 @@ export default function RegisterPage() {
 
             {/* Menu Items */}
             <div className="flex items-center gap-8 flex-1 justify-center">
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+              <Link href="/" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                 {language === 'th' ? 'หน้าแรก' : 'Home'}
-              </a>
+              </Link>
               <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                 {language === 'th' ? 'เกี่ยวกับเรา' : 'About Us'}
               </a>
