@@ -11,6 +11,7 @@ import SuccessStep from '../components/SuccessStep';
 export default function RegisterPage() {
   const [language, setLanguage] = useState<Language>('th');
   const [currentStep, setCurrentStep] = useState(1);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   useEffect(() => {
     // Load language from localStorage on mount
@@ -44,6 +45,12 @@ export default function RegisterPage() {
     const newLanguage = language === 'th' ? 'en' : 'th';
     setLanguage(newLanguage);
     localStorage.setItem('language', newLanguage);
+  };
+
+  const handleComingSoon = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setShowComingSoon(true);
+    setTimeout(() => setShowComingSoon(false), 2000);
   };
 
   const updateFormData = (data: Partial<typeof formData>) => {
@@ -87,22 +94,22 @@ export default function RegisterPage() {
               <Link href="/" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                 {language === 'th' ? 'หน้าแรก' : 'Home'}
               </Link>
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+              <a href="#" onClick={handleComingSoon} className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors cursor-pointer">
                 {language === 'th' ? 'เกี่ยวกับเรา' : 'About Us'}
               </a>
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+              <a href="#" onClick={handleComingSoon} className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors cursor-pointer">
                 {language === 'th' ? 'ปฏิทินกิจกรรม' : 'Calendar'}
               </a>
               <Link href="/register" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                 {language === 'th' ? 'สมาชิก' : 'Members'}
               </Link>
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+              <a href="#" onClick={handleComingSoon} className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors cursor-pointer">
                 {language === 'th' ? 'การอบรม และฝึกอบรม' : 'Training'}
               </a>
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+              <a href="#" onClick={handleComingSoon} className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors cursor-pointer">
                 {language === 'th' ? 'ภาพกิจกรรม' : 'Activity Photos'}
               </a>
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+              <a href="#" onClick={handleComingSoon} className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors cursor-pointer">
                 {language === 'th' ? 'ติดต่อเรา' : 'Contact Us'}
               </a>
             </div>
@@ -200,6 +207,22 @@ export default function RegisterPage() {
           )}
         </div>
       </div>
+
+      {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: '#7C0A02' }}>
+              {language === 'th' ? 'ยังไม่พร้อมใช้งาน' : 'Coming Soon'}
+            </h2>
+            <p className="text-gray-600">
+              {language === 'th'
+                ? 'หน้านี้กำลังอยู่ระหว่างการพัฒนา โปรดติดตามข้อมูลเพิ่มเติม'
+                : 'This page is under development. Please stay tuned for updates.'}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
