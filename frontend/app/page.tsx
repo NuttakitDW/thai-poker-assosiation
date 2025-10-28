@@ -82,6 +82,32 @@ export default function Home() {
                   {language === 'th' ? 'สมาคมกีฬาโป๊กเกอร์ไทย' : 'Thai Poker Sports Association'}
                 </span>
               </div>
+
+              {/* Menu Items */}
+              <div className="flex items-center gap-8 flex-1 justify-center">
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'หน้าแรก' : 'Home'}
+                </a>
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'เกี่ยวกับเรา' : 'About Us'}
+                </a>
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'บุคลิกศิลป์กรรม' : 'Personnel'}
+                </a>
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'สมาชิก' : 'Members'}
+                </a>
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'การอบรม และฝึกอบรม' : 'Training'}
+                </a>
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'ภาพกิจกรรม' : 'Activity Photos'}
+                </a>
+                <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
+                  {language === 'th' ? 'ติดต่อเรา' : 'Contact Us'}
+                </a>
+              </div>
+
               <button
                 onClick={toggleLanguage}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
