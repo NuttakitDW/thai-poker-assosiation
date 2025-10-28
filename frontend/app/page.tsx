@@ -138,7 +138,9 @@ export default function Home() {
               {/* Card 1 */}
               <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all text-center"
                 style={{ borderRadius: '20px' }}>
-                <div className="text-6xl mb-6">🏆</div>
+                <div className="mb-6" style={{ fontSize: '48px', color: '#FFD700' }}>
+                  <i className="fas fa-trophy"></i>
+                </div>
                 <h3 className="text-xl font-bold mb-3" style={{ color: '#7C0A02' }}>
                   {language === 'th' ? 'ส่งเสริมกีฬาโป๊กเกอร์' : 'Promote Poker Sports'}
                 </h3>
@@ -152,7 +154,9 @@ export default function Home() {
               {/* Card 2 */}
               <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all text-center"
                 style={{ borderRadius: '20px' }}>
-                <div className="text-6xl mb-6">👥</div>
+                <div className="mb-6" style={{ fontSize: '48px', color: '#FFD700' }}>
+                  <i className="fas fa-users"></i>
+                </div>
                 <h3 className="text-xl font-bold mb-3" style={{ color: '#7C0A02' }}>
                   {language === 'th' ? 'พัฒนานักกีฬา' : 'Develop Athletes'}
                 </h3>
@@ -166,7 +170,9 @@ export default function Home() {
               {/* Card 3 */}
               <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all text-center"
                 style={{ borderRadius: '20px' }}>
-                <div className="text-6xl mb-6">🎓</div>
+                <div className="mb-6" style={{ fontSize: '48px', color: '#FFD700' }}>
+                  <i className="fas fa-graduation-cap"></i>
+                </div>
                 <h3 className="text-xl font-bold mb-3" style={{ color: '#7C0A02' }}>
                   {language === 'th' ? 'การอบรมและศึกษา' : 'Training & Education'}
                 </h3>
