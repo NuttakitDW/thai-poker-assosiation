@@ -119,21 +119,41 @@ export default function Home() {
         </nav>
 
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-red-700 to-red-900 text-white py-24">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+        <div
+          style={{
+            backgroundColor: '#8B1E14',
+            backgroundImage: `
+              radial-gradient(circle at center, #A22A1D, #8B1E14),
+              repeating-linear-gradient(45deg, rgba(178,59,42,0.2) 0, rgba(178,59,42,0.2) 2px, transparent 2px, transparent 40px),
+              repeating-linear-gradient(-45deg, rgba(178,59,42,0.2) 0, rgba(178,59,42,0.2) 2px, transparent 2px, transparent 40px)
+            `,
+            backgroundBlendMode: 'overlay',
+            backgroundAttachment: 'fixed'
+          }}
+          className="text-white py-32 relative"
+        >
+          <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight" style={{
+              textShadow: '0 2px 8px rgba(74, 14, 10, 0.4)'
+            }}>
               {language === 'th'
                 ? 'ยินดีต้อนรับสู่สมาคมกีฬาโป๊กเกอร์ไทย'
                 : 'Welcome to Thai Poker Sports Association'}
             </h1>
-            <p className="text-xl lg:text-2xl mb-10 opacity-90">
+            <p className="text-lg lg:text-xl mb-12 opacity-95" style={{
+              textShadow: '0 2px 4px rgba(74, 14, 10, 0.3)'
+            }}>
               {language === 'th'
                 ? 'ส่งเสริมและพัฒนากีฬาโป๊กเกอร์ในประเทศไทย'
                 : 'Promoting and Developing Poker Sports in Thailand'}
             </p>
             <button
               onClick={startRegistration}
-              className="inline-block px-8 py-3 bg-red-900 text-white font-semibold rounded-full hover:bg-red-800 transition-colors border border-red-800"
+              style={{
+                backgroundColor: '#660E06',
+                boxShadow: '0 4px 12px rgba(102, 14, 6, 0.4)'
+              }}
+              className="inline-block px-10 py-3 text-white font-semibold rounded-full hover:bg-opacity-90 transition-all duration-200 hover:shadow-lg"
             >
               {language === 'th' ? 'สมัครสมาชิก' : 'Register Now'}
             </button>
@@ -143,14 +163,21 @@ export default function Home() {
         {/* Benefits Section */}
         <div className="bg-gray-50 py-20">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center text-red-900 mb-16">
+            <h2 className="text-4xl font-bold text-center mb-16" style={{ color: '#A53030' }}>
               {language === 'th' ? 'พันธกิจ' : 'Mission'}
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {/* Card 1 */}
               <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="text-6xl mb-6 text-yellow-400">🏆</div>
-                <h3 className="text-xl font-bold text-red-900 mb-4">
+                <div className="flex justify-center mb-6">
+                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 5L35 20H50L37.5 29L42.5 44L30 35L17.5 44L22.5 29L10 20H25L30 5Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <path d="M20 48C18 48 16 50 16 52C16 54 18 56 20 56C22 56 24 54 24 52C24 50 22 48 20 48Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <path d="M40 48C38 48 36 50 36 52C36 54 38 56 40 56C42 56 44 54 44 52C44 50 42 48 40 48Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <path d="M24 40L36 40" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-4" style={{ color: '#A53030' }}>
                   {language === 'th' ? 'ส่งเสริมกีฬาโป๊กเกอร์' : 'Promote Poker Sports'}
                 </h3>
                 <p className="text-gray-600">
@@ -162,8 +189,17 @@ export default function Home() {
 
               {/* Card 2 */}
               <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="text-6xl mb-6 text-yellow-400">👥</div>
-                <h3 className="text-xl font-bold text-red-900 mb-4">
+                <div className="flex justify-center mb-6">
+                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="18" r="8" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <circle cx="18" cy="35" r="6" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <circle cx="42" cy="35" r="6" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <path d="M24 28C24 24 27 22 30 22C33 22 36 24 36 28" stroke="#F59E0B" strokeWidth="1.5" fill="none"/>
+                    <path d="M12 42C12 38 14 36 18 36C22 36 24 38 24 42V50H12V42Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <path d="M36 42C36 38 38 36 42 36C46 36 48 38 48 42V50H36V42Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-4" style={{ color: '#A53030' }}>
                   {language === 'th' ? 'พัฒนานักกีฬา' : 'Develop Athletes'}
                 </h3>
                 <p className="text-gray-600">
@@ -175,8 +211,16 @@ export default function Home() {
 
               {/* Card 3 */}
               <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="text-6xl mb-6 text-yellow-400">🎓</div>
-                <h3 className="text-xl font-bold text-red-900 mb-4">
+                <div className="flex justify-center mb-6">
+                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="28" width="40" height="24" rx="2" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <path d="M30 28L15 15L15 28H45L45 15L30 28Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
+                    <circle cx="30" cy="40" r="3" fill="#F59E0B"/>
+                    <path d="M20 35H25" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M35 35H40" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-4" style={{ color: '#A53030' }}>
                   {language === 'th' ? 'การอบรมและศึกษา' : 'Training & Education'}
                 </h3>
                 <p className="text-gray-600">
@@ -190,12 +234,28 @@ export default function Home() {
         </div>
 
         {/* Vision Section */}
-        <div className="bg-gradient-to-br from-red-700 to-red-900 text-white py-20">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <h2 className="text-4xl font-bold mb-8">
+        <div
+          style={{
+            backgroundColor: '#8B1E14',
+            backgroundImage: `
+              radial-gradient(circle at center, #A22A1D, #8B1E14),
+              repeating-linear-gradient(45deg, rgba(178,59,42,0.2) 0, rgba(178,59,42,0.2) 2px, transparent 2px, transparent 40px),
+              repeating-linear-gradient(-45deg, rgba(178,59,42,0.2) 0, rgba(178,59,42,0.2) 2px, transparent 2px, transparent 40px)
+            `,
+            backgroundBlendMode: 'overlay',
+            backgroundAttachment: 'fixed'
+          }}
+          className="text-white py-20 relative"
+        >
+          <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <h2 className="text-4xl font-bold mb-8" style={{
+              textShadow: '0 2px 8px rgba(74, 14, 10, 0.4)'
+            }}>
               {language === 'th' ? 'วิสัยทัศน์' : 'Vision'}
             </h2>
-            <p className="text-lg lg:text-xl leading-relaxed opacity-90 max-w-3xl mx-auto">
+            <p className="text-lg lg:text-xl leading-relaxed opacity-95 max-w-3xl mx-auto" style={{
+              textShadow: '0 2px 4px rgba(74, 14, 10, 0.3)'
+            }}>
               {language === 'th'
                 ? 'เป็นองค์กรชั้นนำในการส่งเสริมและพัฒนากีฬาโป๊กเกอร์ประเทศไทย ให้เป็นที่ยอมรับในระดับประเทศ และส่งกีฬาโป๊กเกอร์ไทยไปสู่เวทีสากล'
                 : 'To be a leading organization in promoting and developing poker sports in Thailand, recognized nationally and internationally'}
@@ -206,7 +266,7 @@ export default function Home() {
         {/* News Section */}
         <div className="bg-white py-20">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
+            <h2 className="text-4xl font-bold text-center mb-16" style={{ color: '#A53030' }}>
               {language === 'th' ? 'ข่าวสาร' : 'News & Activities'}
             </h2>
             <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -218,7 +278,7 @@ export default function Home() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-red-700 mb-3">
+                  <h3 className="text-lg font-bold mb-3" style={{ color: '#A53030' }}>
                     {language === 'th'
                       ? 'การแข่งขันโป๊กเกอร์ทีมชาติประเทศไทย 2024'
                       : 'Thailand National Poker Championship 2024'}
@@ -242,7 +302,7 @@ export default function Home() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-red-700 mb-3">
+                  <h3 className="text-lg font-bold mb-3" style={{ color: '#A53030' }}>
                     {language === 'th'
                       ? 'เปิดรับสมัครสมาชิกใหม่ประจำปี 2024'
                       : 'New Member Recruitment 2024'}
@@ -266,7 +326,7 @@ export default function Home() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-red-700 mb-3">
+                  <h3 className="text-lg font-bold mb-3" style={{ color: '#A53030' }}>
                     {language === 'th'
                       ? 'การอบรมผู้ตัดสินโป๊กเกอร์'
                       : 'Poker Referee Training Program'}
@@ -285,7 +345,7 @@ export default function Home() {
 
             {/* View All Button */}
             <div className="text-center">
-              <button className="px-8 py-3 border-2 border-red-700 text-red-700 font-semibold rounded-full hover:bg-red-50 transition-colors">
+              <button style={{ borderColor: '#A53030', color: '#A53030' }} className="px-8 py-3 border-2 font-semibold rounded-full hover:bg-red-50 transition-colors">
                 {language === 'th' ? 'ดูข่าวสารทั้งหมด' : 'View All News'}
               </button>
             </div>
@@ -331,7 +391,7 @@ export default function Home() {
                 </p>
                 <p className="text-gray-400 text-sm mb-2 flex items-center gap-2">
                   <span>📧</span>
-                  info@thaipoker.org
+                  info@thaipokersportsassociation.org
                 </p>
                 <p className="text-gray-400 text-sm flex items-center gap-2">
                   <span>📍</span>
