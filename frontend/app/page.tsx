@@ -92,7 +92,7 @@ export default function Home() {
                   {language === 'th' ? 'เกี่ยวกับเรา' : 'About Us'}
                 </a>
                 <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
-                  {language === 'th' ? 'บุคลิกศิลป์กรรม' : 'Personnel'}
+                  {language === 'th' ? 'ปฏิทินกิจกรรม' : 'Calendar'}
                 </a>
                 <a href="#" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                   {language === 'th' ? 'สมาชิก' : 'Members'}
@@ -151,36 +151,41 @@ export default function Home() {
               onClick={startRegistration}
               style={{
                 backgroundColor: '#660E06',
-                boxShadow: '0 4px 12px rgba(102, 14, 6, 0.4)'
+                boxShadow: '0 4px 12px rgba(102, 14, 6, 0.4)',
+                transition: 'all 0.3s ease'
               }}
-              className="inline-block px-10 py-3 text-white font-semibold rounded-full hover:bg-opacity-90 transition-all duration-200 hover:shadow-lg"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#FFD700';
+                e.currentTarget.style.color = '#7C0A02';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#660E06';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 14, 6, 0.4)';
+              }}
+              className="inline-block px-10 py-3 font-semibold rounded-full transition-all duration-300"
             >
               {language === 'th' ? 'สมัครสมาชิก' : 'Register Now'}
             </button>
           </div>
         </div>
 
-        {/* Benefits Section */}
-        <div className="bg-gray-50 py-20">
+        {/* Mission Section */}
+        <div style={{ backgroundColor: '#F9FAFB' }} className="py-20">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-16" style={{ color: '#A53030' }}>
+            <h2 className="text-4xl font-bold text-center mb-16" style={{ color: '#7C0A02' }}>
               {language === 'th' ? 'พันธกิจ' : 'Mission'}
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {/* Card 1 */}
-              <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="flex justify-center mb-6">
-                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M30 5L35 20H50L37.5 29L42.5 44L30 35L17.5 44L22.5 29L10 20H25L30 5Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <path d="M20 48C18 48 16 50 16 52C16 54 18 56 20 56C22 56 24 54 24 52C24 50 22 48 20 48Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <path d="M40 48C38 48 36 50 36 52C36 54 38 56 40 56C42 56 44 54 44 52C44 50 42 48 40 48Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <path d="M24 40L36 40" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ color: '#A53030' }}>
+              <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all text-center"
+                style={{ borderRadius: '20px' }}>
+                <div className="text-6xl mb-6">🏆</div>
+                <h3 className="text-xl font-bold mb-3" style={{ color: '#7C0A02' }}>
                   {language === 'th' ? 'ส่งเสริมกีฬาโป๊กเกอร์' : 'Promote Poker Sports'}
                 </h3>
-                <p className="text-gray-600">
+                <p style={{ color: '#555555' }} className="text-sm leading-relaxed">
                   {language === 'th'
                     ? 'ส่งเสริมและพัฒนากีฬาโป๊กเกอร์ให้เป็นที่ยอมรับในสังคมไทย'
                     : 'Promote and develop poker as a recognized sport in Thailand'}
@@ -188,21 +193,13 @@ export default function Home() {
               </div>
 
               {/* Card 2 */}
-              <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="flex justify-center mb-6">
-                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="18" r="8" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <circle cx="18" cy="35" r="6" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <circle cx="42" cy="35" r="6" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <path d="M24 28C24 24 27 22 30 22C33 22 36 24 36 28" stroke="#F59E0B" strokeWidth="1.5" fill="none"/>
-                    <path d="M12 42C12 38 14 36 18 36C22 36 24 38 24 42V50H12V42Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <path d="M36 42C36 38 38 36 42 36C46 36 48 38 48 42V50H36V42Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ color: '#A53030' }}>
+              <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all text-center"
+                style={{ borderRadius: '20px' }}>
+                <div className="text-6xl mb-6">👥</div>
+                <h3 className="text-xl font-bold mb-3" style={{ color: '#7C0A02' }}>
                   {language === 'th' ? 'พัฒนานักกีฬา' : 'Develop Athletes'}
                 </h3>
-                <p className="text-gray-600">
+                <p style={{ color: '#555555' }} className="text-sm leading-relaxed">
                   {language === 'th'
                     ? 'พัฒนานักกีฬาโป๊กเกอร์ไทยให้มีมาตรฐานสากลและเข้าร่วมการแข่งขันนานาชาติ'
                     : 'Develop Thai poker athletes to international standards and competition'}
@@ -210,20 +207,13 @@ export default function Home() {
               </div>
 
               {/* Card 3 */}
-              <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="flex justify-center mb-6">
-                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="10" y="28" width="40" height="24" rx="2" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <path d="M30 28L15 15L15 28H45L45 15L30 28Z" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1.5"/>
-                    <circle cx="30" cy="40" r="3" fill="#F59E0B"/>
-                    <path d="M20 35H25" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M35 35H40" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ color: '#A53030' }}>
+              <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all text-center"
+                style={{ borderRadius: '20px' }}>
+                <div className="text-6xl mb-6">🎓</div>
+                <h3 className="text-xl font-bold mb-3" style={{ color: '#7C0A02' }}>
                   {language === 'th' ? 'การอบรมและศึกษา' : 'Training & Education'}
                 </h3>
-                <p className="text-gray-600">
+                <p style={{ color: '#555555' }} className="text-sm leading-relaxed">
                   {language === 'th'
                     ? 'จัดอบรมและให้ความรู้ด้านกีฬาโป๊กเกอร์อย่างถูกต้องและมีจริยธรรม'
                     : 'Provide proper training and ethical education in poker'}
@@ -371,7 +361,7 @@ export default function Home() {
               {/* Quick Links */}
               <div>
                 <h3 className="text-lg font-bold mb-4">
-                  {language === 'th' ? 'เมนูด่วน' : 'Quick Links'}
+                  {language === 'th' ? 'รายการ' : 'Menu'}
                 </h3>
                 <ul className="text-gray-400 text-sm space-y-2">
                   <li><a href="#" className="hover:text-white transition-colors">{language === 'th' ? 'เกี่ยวกับเรา' : 'About Us'}</a></li>
