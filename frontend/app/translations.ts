@@ -5,7 +5,7 @@ export const translations = {
 
     // Header
     title: 'ลงทะเบียนสมาชิก',
-    subtitle: 'สมาคมไพ่โป๊กเกอร์ไทย',
+    subtitle: 'สมาคมกีฬาโป๊กเกอร์ไทย',
 
     // Steps
     step1: 'ข้อมูลส่วนตัว',
